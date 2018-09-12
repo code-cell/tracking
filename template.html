@@ -1,0 +1,131 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: rgb(58, 58, 58);
+
+    }
+
+    #header h1{
+      color: rgb(109, 100, 232);
+      font-size: 2em;
+      font-weight: normal;
+    }
+    #invoice-header {
+      color: rgb(40, 53, 146);
+      font-size: 3em;
+      margin-bottom: 0;
+    }
+    #submitted-header {
+      color: rgb(224, 27, 132);
+      font-size: 1em;
+      margin-top: 0;
+    }
+    .caption {
+      font-weight: bold;
+      color: black;
+    }
+    #for{
+      float: left;
+      width: 70%;
+    }
+    table {
+      clear: both;
+      width: 100%;
+    }
+    hr { 
+      clear: both;
+    }
+    th{
+      text-align: left;
+      color: rgb(40, 53, 146);
+    }
+    table .rate, table .total {
+      text-align: right;
+    }
+    #vat {
+      text-align: right;
+      margin-top: 20px;
+    }
+    #total {
+      text-align: right;
+      color: rgb(224, 27, 132);
+      font-weight: bold;
+      font-size: 2em;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="header">
+      <h1>{{ .CompanyName }}</h1>
+      <p>{{ .From }}</p>
+    </div>
+    <h1 id="invoice-header">Invoice</h1>
+    <h2 id="submitted-header">Submitted on {{.SubmitDate}}</h2>
+    <div id="for">
+      <span class="caption">Invoice for</span>
+      <p>
+        {{.For}}
+      </p>
+    </div>
+    <div class="invoice-num">
+      <span class="caption">Invoice #</span>
+      <p>
+        {{.InvoiceNumber}}
+      </p>
+    </div>
+    <div class="due-date">
+      <span class="caption">Due date</span>
+      <p>
+        {{.Due}}
+      </p>
+    </div>
+
+    <hr>
+
+    <table>
+      <thead>
+        <tr>
+          <th class="description">Description</th>
+          <th class="hours">Hours</th>
+          <th class="rate">Rate</th>
+          <th class="total">Total price</th>
+        </tr>
+      </thead>
+      {{ range $rowIndex, $row := .Rows }}
+        <tr class="row-{{ $rowIndex }}">
+          <td class="description">{{ $row.Description }}</td>
+          <td class="hours">{{ $row.Hours }}</td>
+          <td class="rate">{{ $row.Rate }}</td>
+          <td class="total">{{ $row.Total }}</td>
+        </tr>
+      {{ end }}
+      </thead>
+    </table>
+
+    <div id=vat>
+      VAT ({{.VatRate}}%) {{.Vat}}
+    </div>
+
+    <hr>
+
+    <div id=total>
+      {{.Total}}
+    </div>
+    
+  </div>
+</body>
+
+</html>

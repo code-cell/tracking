@@ -1,6 +1,7 @@
-package tracking
+package main
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -27,10 +28,22 @@ func mustParseTime(s string) time.Time {
 	return t
 }
 
+func formatTime(t time.Time) string {
+	return t.Format(TimeFmt)
+}
+
+func formatCurrency(v float32) string {
+	return fmt.Sprintf("%.02f €", v)
+}
+
 func removeTrailingSpaces(s string) string {
 	parts := strings.Split(s, "\n")
 	for i, part := range parts {
 		parts[i] = strings.TrimSpace(part)
 	}
 	return strings.Join(parts, "\n")
+}
+
+func linesWithBR(s string) string {
+	return strings.Replace(s, "\n", "<br>\n", -1)
 }

@@ -1,4 +1,4 @@
-package tracking
+package main
 
 import blackfriday "gopkg.in/russross/blackfriday.v2"
 

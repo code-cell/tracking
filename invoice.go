@@ -1,4 +1,4 @@
-package tracking
+package main
 
 import (
 	"strings"
@@ -39,4 +39,11 @@ func ParseInvoices(markdown string) []*Invoice {
 	})
 
 	return hours
+}
+
+func (i *Invoice) Contains(h *Hour) bool {
+	if h.Day.Before(i.From) || h.Day.After(i.To) {
+		return false
+	}
+	return true
 }
