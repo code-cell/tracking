@@ -6,7 +6,10 @@ import (
 	"text/template"
 
 	wkhtmltopdf "github.com/SebastiaanKlippert/go-wkhtmltopdf"
+	"github.com/gobuffalo/packr"
 )
+
+//go:generate packr
 
 type templateRow struct {
 	Description string
@@ -56,14 +59,16 @@ func generateInvoice(output string, from *Client, invoice *Invoice, client *Clie
 		},
 	}
 
+	box := packr.NewBox("./templates")
+
 	t := template.New("invoice")
-	t, err := t.ParseFiles("template.html")
+	t, err := t.Parse(box.String("simple.html"))
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	var buf bytes.Buffer
-	err = t.ExecuteTemplate(&buf, "template.html", data)
+	err = t.Execute(&buf, data)
 	if err != nil {
 		log.Fatal(err)
 	}
