@@ -13,9 +13,12 @@ func TestParseInvoices(t *testing.T) {
 		expected []*Invoice
 	}{
 		{
-			input: removeTrailingSpaces(`
-				100001 foobar 12.5 2018-09-12 2018-09-13
-			`),
+			input: `---
+              - invoice: 100001
+                client: foobar
+                rate: 12.5
+                from: 2018-09-12
+                to: 2018-09-13`,
 			expected: []*Invoice{
 				{
 					Number: "100001",
@@ -27,10 +30,17 @@ func TestParseInvoices(t *testing.T) {
 			},
 		},
 		{
-			input: removeTrailingSpaces(`
-				100001 foo 12.5 2018-09-12 2018-09-13
-				100002 bar 23.1 2018-09-08 2018-09-11
-			`),
+			input: `---
+              - invoice: 100001
+                client: foo
+                rate: 12.5
+                from: 2018-09-12
+                to: 2018-09-13
+              - invoice: 100002
+                client: bar
+                rate: 23.1
+                from: 2018-09-08
+                to: 2018-09-11`,
 			expected: []*Invoice{
 				{
 					Number: "100001",
