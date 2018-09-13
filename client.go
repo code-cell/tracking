@@ -1,28 +1,21 @@
 package main
 
-import blackfriday "gopkg.in/russross/blackfriday.v2"
+import (
+	"log"
+
+	yaml "gopkg.in/yaml.v2"
+)
 
 type Client struct {
-	Key         string
-	BillingInfo string
+	Key         string `yaml:"company"`
+	BillingInfo string `yaml:"billing"`
 }
 
-func ParseClients(markdown string) []*Client {
-	parser := blackfriday.New()
-	ast := parser.Parse([]byte(markdown))
-
-	clients := make([]*Client, 0)
-	ast.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
-		if entering && node.Type == blackfriday.Heading {
-			key := node.FirstChild.Literal
-			billingInfo := node.Next.FirstChild.Literal
-			clients = append(clients, &Client{
-				Key:         string(key),
-				BillingInfo: string(billingInfo),
-			})
-		}
-		return blackfriday.GoToNext
-	})
-
+func ParseClients(src string) []*Client {
+	var clients []*Client
+	err := yaml.Unmarshal([]byte(src), &clients)
+	if err != nil {
+		log.Fatal(err)
+	}
 	return clients
 }

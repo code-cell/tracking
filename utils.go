@@ -36,7 +36,7 @@ func formatCurrency(v float32) string {
 	return fmt.Sprintf("%.02f €", v)
 }
 
-func removeTrailingSpaces(s string) string {
+func removeLeadingSpaces(s string) string {
 	parts := strings.Split(s, "\n")
 	for i, part := range parts {
 		parts[i] = strings.TrimSpace(part)

@@ -12,36 +12,36 @@ func TestParseClient(t *testing.T) {
 		expected []*Client
 	}{
 		{
-			input: removeTrailingSpaces(`
-				# foobar
-				Foo Bar Manager
-				Foo Bar Ltd (12345678)
-				foo@bar.io
-				12 Foo bar st, Foobarland
-				VAT: FB12345678
-				MOD: 98273311
-			`),
+			input: `---
+              - company: foobar
+                billing: |-
+                  Foo Bar Manager
+                  Foo Bar Ltd (12345678)
+                  foo@bar.io
+                  12 Foo bar st, Foobarland
+                  VAT: FB12345678
+                  MOD: 98273311`,
 			expected: []*Client{
 				{
 					Key: "foobar",
-					BillingInfo: removeTrailingSpaces(
+					BillingInfo: removeLeadingSpaces(
 						`Foo Bar Manager
-						Foo Bar Ltd (12345678)
-						foo@bar.io
-						12 Foo bar st, Foobarland
-						VAT: FB12345678
-						MOD: 98273311`),
+            Foo Bar Ltd (12345678)
+            foo@bar.io
+            12 Foo bar st, Foobarland
+            VAT: FB12345678
+            MOD: 98273311`),
 				},
 			},
 		},
 		{
-			input: removeTrailingSpaces(`
-				# foo
-				foo info
-
-				# bar
-				bar info
-			`),
+			input: `---
+              - company: foo
+                billing: |-
+                  foo info
+              - company: bar
+                billing: |-
+                  bar info`,
 			expected: []*Client{
 				{
 					Key:         "foo",

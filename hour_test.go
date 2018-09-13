@@ -13,7 +13,7 @@ func TestParseHour(t *testing.T) {
 		expected []*Hour
 	}{
 		{
-			input: removeTrailingSpaces(`
+			input: removeLeadingSpaces(`
 				# 2018-09-12
 				1 foobar
 			`),
@@ -26,7 +26,7 @@ func TestParseHour(t *testing.T) {
 			},
 		},
 		{
-			input: removeTrailingSpaces(`
+			input: removeLeadingSpaces(`
 				# 2018-09-12
 				1 foo
 				2 bar
@@ -45,7 +45,7 @@ func TestParseHour(t *testing.T) {
 			},
 		},
 		{
-			input: removeTrailingSpaces(`
+			input: removeLeadingSpaces(`
 				# 2018-09-12
 				1 foo
 
