@@ -14,6 +14,7 @@ func TestParseClient(t *testing.T) {
 		{
 			input: `---
               - company: foobar
+                name: Foo Bar Ltd
                 billing: |-
                   Foo Bar Manager
                   Foo Bar Ltd (12345678)
@@ -23,7 +24,8 @@ func TestParseClient(t *testing.T) {
                   MOD: 98273311`,
 			expected: []*Client{
 				{
-					Key: "foobar",
+					Key:  "foobar",
+					Name: "Foo Bar Ltd",
 					BillingInfo: removeLeadingSpaces(
 						`Foo Bar Manager
             Foo Bar Ltd (12345678)
@@ -37,18 +39,22 @@ func TestParseClient(t *testing.T) {
 		{
 			input: `---
               - company: foo
+                name: Foo
                 billing: |-
                   foo info
               - company: bar
+                name: Bar
                 billing: |-
                   bar info`,
 			expected: []*Client{
 				{
 					Key:         "foo",
+					Name:        "Foo",
 					BillingInfo: "foo info",
 				},
 				{
 					Key:         "bar",
+					Name:        "Bar",
 					BillingInfo: "bar info",
 				},
 			},

@@ -51,7 +51,7 @@ func generateInvoice(output string, from *Client, invoice *Invoice, client *Clie
 		Total:         formatCurrency((sumHours * invoice.Rate) + vat),
 		Rows: []*templateRow{
 			{
-				Description: client.Key,
+				Description: client.Name,
 				Hours:       sumHours,
 				Rate:        formatCurrency(invoice.Rate),
 				Total:       formatCurrency(sumHours * invoice.Rate),

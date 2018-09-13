@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
 
@@ -19,7 +20,7 @@ func ParseInvoices(src string) []*Invoice {
 	var invoices []*Invoice
 	err := yaml.Unmarshal([]byte(src), &invoices)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(errors.Wrap(err, "error parsing invoices"))
 	}
 	return invoices
 }

@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/pkg/errors"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -22,7 +23,7 @@ func ParseHours(src string) []*Hour {
 	var sourceHours []*sourceHour
 	err := yaml.Unmarshal([]byte(src), &sourceHours)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(errors.Wrap(err, "error parsing hours"))
 	}
 
 	hours := make([]*Hour, 0)
