@@ -13,10 +13,10 @@ func TestParseHour(t *testing.T) {
 		expected []*Hour
 	}{
 		{
-			input: removeLeadingSpaces(`
-				# 2018-09-12
-				1 foobar
-			`),
+			input: `---
+              - day: 2018-09-12
+                hours:
+                  foobar: 1`,
 			expected: []*Hour{
 				{
 					Client: "foobar",
@@ -26,11 +26,11 @@ func TestParseHour(t *testing.T) {
 			},
 		},
 		{
-			input: removeLeadingSpaces(`
-				# 2018-09-12
-				1 foo
-				2 bar
-			`),
+			input: `---
+              - day: 2018-09-12
+                hours:
+                  foo: 1
+                  bar: 2`,
 			expected: []*Hour{
 				{
 					Client: "foo",
@@ -45,13 +45,13 @@ func TestParseHour(t *testing.T) {
 			},
 		},
 		{
-			input: removeLeadingSpaces(`
-				# 2018-09-12
-				1 foo
-
-				# 2018-09-13
-				2 bar
-			`),
+			input: `---
+              - day: 2018-09-12
+                hours:
+                  foo: 1
+              - day: 2018-09-13
+                hours:
+                  bar: 2`,
 			expected: []*Hour{
 				{
 					Client: "foo",

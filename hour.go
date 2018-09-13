@@ -1,10 +1,10 @@
 package main
 
 import (
-	"strings"
+	"log"
 	"time"
 
-	blackfriday "gopkg.in/russross/blackfriday.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 type Hour struct {
@@ -13,30 +13,27 @@ type Hour struct {
 	Hours  float32
 }
 
-func ParseHours(markdown string) []*Hour {
-	parser := blackfriday.New()
-	ast := parser.Parse([]byte(markdown))
+type sourceHour struct {
+	Day   time.Time
+	Hours map[string]float32
+}
+
+func ParseHours(src string) []*Hour {
+	var sourceHours []*sourceHour
+	err := yaml.Unmarshal([]byte(src), &sourceHours)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	hours := make([]*Hour, 0)
-	ast.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
-		if entering && node.Type == blackfriday.Heading {
-			day := mustParseTime(string(node.FirstChild.Literal))
-
-			lines := strings.Split(string(node.Next.FirstChild.Literal), "\n")
-			for _, line := range lines {
-				parts := strings.Split(line, " ")
-
-				h := mustParseFloat32(parts[0])
-				client := parts[1]
-				hours = append(hours, &Hour{
-					Day:    day,
-					Hours:  h,
-					Client: client,
-				})
-			}
+	for _, day := range sourceHours {
+		for client, hour := range day.Hours {
+			hours = append(hours, &Hour{
+				Client: client,
+				Day:    day.Day,
+				Hours:  hour,
+			})
 		}
-		return blackfriday.GoToNext
-	})
-
+	}
 	return hours
 }
