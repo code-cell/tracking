@@ -13,6 +13,10 @@ The template for the clients file is:
 ```yaml
 ---
 - company: <CLIENT_KEY>
+  name: <CLIENT_NAME>
+  projects:
+    - key: <PROJECT_KEY>
+      name: <PROJECT_NAME>
   billing: <BILLING_INFO>
 ```
 
@@ -21,6 +25,12 @@ For example:
 ```yaml
 ---
 - company: foobar
+  name: Foo Bar Ltd
+  projects:
+    - key: p1
+      name: Project 1
+    - key: p2
+      name: Project 2
   billing: |-
     Foo Bar Manager
     Foo Bar Ltd (12345678)
@@ -47,7 +57,7 @@ The template for the hours file is:
 ---
 - day: <DAY>
   hours:
-    <CLIENT_KEY>: <NUM>
+    <CLIENT_KEY>.<PROJECT_KEY>: <NUM>
 ```
 
 For example:
@@ -56,13 +66,13 @@ For example:
 ---
 - day: 2018-09-12
   hours:
-    foobar: 1
-    zap: 5
+    foobar.p1: 1
+    zap.p3: 5
 
 - day: 2018-09-13
   hours:
-    foobar: 1
-    zap: 3
+    foobar.p2: 1
+    zap.p5: 3
 ```
 
 ## Invoices file
