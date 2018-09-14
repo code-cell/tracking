@@ -63,7 +63,7 @@ func generateInvoice(output string, from *Client, invoice *Invoice, client *Clie
 
 	data := &templateData{
 		SubmitDate:    formatTime(invoice.To),
-		CompanyName:   from.Key,
+		CompanyName:   from.Name,
 		From:          linesWithBR(from.BillingInfo),
 		For:           linesWithBR(client.BillingInfo),
 		InvoiceNumber: invoice.Number,
