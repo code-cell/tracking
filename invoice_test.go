@@ -60,6 +60,6 @@ func TestParseInvoices(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		require.Equal(t, test.expected, ParseInvoices(test.input))
+		require.ElementsMatch(t, test.expected, ParseInvoices(test.input))
 	}
 }

@@ -32,9 +32,31 @@ type templateData struct {
 }
 
 func generateInvoice(output string, from *Client, invoice *Invoice, client *Client, hours []*Hour) {
-	var sumHours float32
+	sums := make(map[string]float32, 0)
+	var sumTotal float32
+
 	for _, hour := range hours {
-		sumHours += hour.Hours
+		if _, found := sums[hour.Project]; !found {
+			sums[hour.Project] = 0
+		}
+		sums[hour.Project] += hour.Hours
+		sumTotal += hour.Hours
+	}
+
+	rows := make([]*templateRow, 0)
+
+	for projectKey, sum := range sums {
+		project := client.FindProject(projectKey)
+		if project == nil {
+			log.Fatalf("Client %v doesn't have project %v", client.Key, projectKey)
+		}
+
+		rows = append(rows, &templateRow{
+			Description: project.Name,
+			Hours:       sum,
+			Rate:        formatCurrency(invoice.Rate),
+			Total:       formatCurrency(sum * invoice.Rate),
+		})
 	}
 
 	vat := float32(0.0)
@@ -48,15 +70,8 @@ func generateInvoice(output string, from *Client, invoice *Invoice, client *Clie
 		Due:           formatTime(invoice.To),
 		VatRate:       0,
 		Vat:           formatCurrency(vat),
-		Total:         formatCurrency((sumHours * invoice.Rate) + vat),
-		Rows: []*templateRow{
-			{
-				Description: client.Name,
-				Hours:       sumHours,
-				Rate:        formatCurrency(invoice.Rate),
-				Total:       formatCurrency(sumHours * invoice.Rate),
-			},
-		},
+		Total:         formatCurrency((sumTotal * invoice.Rate) + vat),
+		Rows:          rows,
 	}
 
 	box := packr.NewBox("./templates")

@@ -16,9 +16,9 @@ var (
 )
 
 func main() {
-	flag.StringVar(&clientsFile, "clients", "clients.md", "Markdown file containing the list of clients")
-	flag.StringVar(&invoicesFile, "invoices", "invoices.md", "Markdown file containing the list of invoices")
-	flag.StringVar(&hoursFile, "hours", "hours.md", "Markdown file containing the list of hours")
+	flag.StringVar(&clientsFile, "clients", "clients.yaml", "YAML file containing the list of clients")
+	flag.StringVar(&invoicesFile, "invoices", "invoices.yaml", "YAML file containing the list of invoices")
+	flag.StringVar(&hoursFile, "hours", "hours.yaml", "YAML file containing the list of hours")
 	flag.StringVar(&fromCompany, "from", "", "Company generating the invoice")
 	flag.StringVar(&invoiceNum, "i", "", "Invoice to generate")
 	flag.StringVar(&output, "o", "", "Output file")
@@ -89,7 +89,7 @@ func main() {
 
 	invoiceHours := make([]*Hour, 0)
 	for _, h := range hours {
-		if invoice.Contains(h) {
+		if h.Client == client.Key && invoice.Contains(h) {
 			invoiceHours = append(invoiceHours, h)
 		}
 	}

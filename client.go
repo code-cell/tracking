@@ -7,10 +7,15 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
+type Project struct {
+	Key  string
+	Name string
+}
 type Client struct {
 	Key         string `yaml:"company"`
 	Name        string
 	BillingInfo string `yaml:"billing"`
+	Projects    []*Project
 }
 
 func ParseClients(src string) []*Client {
@@ -20,4 +25,13 @@ func ParseClients(src string) []*Client {
 		log.Fatal(errors.Wrap(err, "error parsing clients"))
 	}
 	return clients
+}
+
+func (client *Client) FindProject(projectKey string) *Project {
+	for _, project := range client.Projects {
+		if project.Key == projectKey {
+			return project
+		}
+	}
+	return nil
 }

@@ -1,8 +1,8 @@
 vendor
 
-clients.md
-invoices.md
-hours.md
+clients.yaml
+invoices.yaml
+hours.yaml
 
 invoice.pdf
 tracking

@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -9,9 +10,10 @@ import (
 )
 
 type Hour struct {
-	Client string
-	Day    time.Time
-	Hours  float32
+	Client  string
+	Project string
+	Day     time.Time
+	Hours   float32
 }
 
 type sourceHour struct {
@@ -29,10 +31,12 @@ func ParseHours(src string) []*Hour {
 	hours := make([]*Hour, 0)
 	for _, day := range sourceHours {
 		for client, hour := range day.Hours {
+			parts := strings.Split(client, ".")
 			hours = append(hours, &Hour{
-				Client: client,
-				Day:    day.Day,
-				Hours:  hour,
+				Client:  parts[0],
+				Project: parts[1],
+				Day:     day.Day,
+				Hours:   hour,
 			})
 		}
 	}
