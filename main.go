@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -23,7 +24,7 @@ func main() {
 	flag.StringVar(&hoursFile, "hours", "hours.yaml", "YAML file containing the list of hours")
 	flag.StringVar(&fromFile, "from", "from.yaml", "YAML file containing the info about the company generating the invoice")
 	flag.StringVar(&invoiceNum, "i", "", "Invoice to generate")
-	flag.StringVar(&output, "o", "", "Output file")
+	flag.StringVar(&output, "o", "", "Output file (default to <invoice_number>.pdf)")
 	flag.Parse()
 
 	if invoiceNum == "" {
@@ -31,7 +32,7 @@ func main() {
 	}
 
 	if output == "" {
-		log.Fatal("Please, specify an output file")
+		output = fmt.Sprintf("%v.pdf", invoiceNum)
 	}
 
 	clientsRaw, err := ioutil.ReadFile(clientsFile)
