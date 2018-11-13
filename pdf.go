@@ -6,6 +6,7 @@ import (
 	"text/template"
 
 	wkhtmltopdf "github.com/SebastiaanKlippert/go-wkhtmltopdf"
+	"github.com/code-cell/tracking/data"
 	"github.com/gobuffalo/packr"
 )
 
@@ -31,7 +32,7 @@ type templateData struct {
 	Rows          []*templateRow
 }
 
-func generateInvoice(output string, from *Client, invoice *Invoice, client *Client, hours []*Hour) {
+func generateInvoice(output string, from *data.From, invoice *data.Invoice, client *data.Client, hours []*data.Hour) {
 	sums := make(map[string]float32, 0)
 	var sumTotal float32
 

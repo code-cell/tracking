@@ -66,6 +66,7 @@
   input-imports = [
     "github.com/SebastiaanKlippert/go-wkhtmltopdf",
     "github.com/gobuffalo/packr",
+    "github.com/pkg/errors",
     "github.com/stretchr/testify/require",
     "gopkg.in/yaml.v2",
   ]

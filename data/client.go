@@ -1,4 +1,4 @@
-package main
+package data
 
 import (
 	"log"
@@ -7,10 +7,6 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-type Project struct {
-	Key  string
-	Name string
-}
 type Client struct {
 	Key         string `yaml:"company"`
 	Name        string

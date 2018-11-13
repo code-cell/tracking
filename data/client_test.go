@@ -1,4 +1,4 @@
-package main
+package data
 
 import (
 	"testing"
@@ -22,11 +22,7 @@ func TestParseClient(t *testing.T) {
                     name: Project2 name
                 billing: |-
                   Foo Bar Manager
-                  Foo Bar Ltd (12345678)
-                  foo@bar.io
-                  12 Foo bar st, Foobarland
-                  VAT: FB12345678
-                  MOD: 98273311`,
+                  Foo Bar Ltd (12345678)`,
 			expected: []*Client{
 				{
 					Key:  "foobar",
@@ -35,13 +31,7 @@ func TestParseClient(t *testing.T) {
 						{Key: "p1", Name: "Project1 name"},
 						{Key: "p2", Name: "Project2 name"},
 					},
-					BillingInfo: removeLeadingSpaces(
-						`Foo Bar Manager
-            Foo Bar Ltd (12345678)
-            foo@bar.io
-            12 Foo bar st, Foobarland
-            VAT: FB12345678
-            MOD: 98273311`),
+					BillingInfo: "Foo Bar Manager\nFoo Bar Ltd (12345678)",
 				},
 			},
 		},
