@@ -23,7 +23,7 @@ func main() {
 	flag.StringVar(&invoicesFile, "invoices", "invoices.yaml", "YAML file containing the list of invoices")
 	flag.StringVar(&hoursFile, "hours", "hours.yaml", "YAML file containing the list of hours")
 	flag.StringVar(&fromFile, "from", "from.yaml", "YAML file containing the info about the company generating the invoice")
-	flag.StringVar(&invoiceNum, "i", "", "Invoice to generate")
+	flag.StringVar(&invoiceNum, "i", "", "Invoice number to generate")
 	flag.StringVar(&output, "o", "", "Output file (default to <invoice_number>.pdf)")
 	flag.Parse()
 
