@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"path/filepath"
 
 	"github.com/code-cell/tracking/data"
 )
@@ -12,7 +13,7 @@ import (
 var (
 	clientsFile  string
 	invoicesFile string
-	hoursFile    string
+	hoursPattern string
 	fromFile     string
 	invoiceNum   string
 	output       string
@@ -21,7 +22,7 @@ var (
 func main() {
 	flag.StringVar(&clientsFile, "clients", "clients.yaml", "YAML file containing the list of clients")
 	flag.StringVar(&invoicesFile, "invoices", "invoices.yaml", "YAML file containing the list of invoices")
-	flag.StringVar(&hoursFile, "hours", "hours.yaml", "YAML file containing the list of hours")
+	flag.StringVar(&hoursPattern, "hours", "hours*.yaml", "Pattern to find YAML files containing the list of hours")
 	flag.StringVar(&fromFile, "from", "from.yaml", "YAML file containing the info about the company generating the invoice")
 	flag.StringVar(&invoiceNum, "i", "", "Invoice number to generate")
 	flag.StringVar(&output, "o", "", "Output file (default to <invoice_number>.pdf)")
@@ -47,11 +48,18 @@ func main() {
 	}
 	invoices := data.ParseInvoices(string(invoicesRaw))
 
-	hoursRaw, err := ioutil.ReadFile(hoursFile)
+	matches, err := filepath.Glob(hoursPattern)
 	if err != nil {
 		log.Fatal(err)
 	}
-	hours := data.ParseHours(string(hoursRaw))
+	hours := []*data.Hour{}
+	for _, match := range matches {
+		hoursRaw, err := ioutil.ReadFile(match)
+		if err != nil {
+			log.Fatal(err)
+		}
+		hours = append(hours, data.ParseHours(string(hoursRaw))...)
+	}
 
 	fromRaw, err := ioutil.ReadFile(fromFile)
 	if err != nil {
