@@ -10,6 +10,7 @@ import (
 type From struct {
 	Name        string
 	BillingInfo string `yaml:"billing"`
+	Legal       string `yaml:"legal"`
 }
 
 func ParseFrom(src string) *From {

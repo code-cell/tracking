@@ -29,6 +29,7 @@ type templateData struct {
 	VatRate       float32
 	Vat           string
 	Total         string
+	Legal         string
 	Rows          []*templateRow
 }
 
@@ -72,6 +73,7 @@ func generateInvoice(output string, from *data.From, invoice *data.Invoice, clie
 		VatRate:       0,
 		Vat:           formatCurrency(vat),
 		Total:         formatCurrency((sumTotal * invoice.Rate) + vat),
+		Legal:         from.Legal,
 		Rows:          rows,
 	}
 
